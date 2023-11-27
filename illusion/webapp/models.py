@@ -2,7 +2,7 @@ from django.db import models
 import utils.customUUID as guid
 
 class GUIDModel(models.Model):
-    guid = models.UUIDField(primary_key=True, default=guid.custom_id, editable=False)
+    id = models.CharField(primary_key=True, max_length=32)
 
 class User(GUIDModel):
     username = models.CharField(max_length=200)

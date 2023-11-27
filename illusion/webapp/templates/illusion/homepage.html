@@ -1,0 +1,35 @@
+<div>
+{% if userList %}
+    <ul>
+        
+        {% for user in userList %}
+            <li>
+                <a href="user/{{user.id}}">{{user.username}} | {{user.id}}
+                </a>
+            </li>
+        {% endfor %}
+            
+    </ul>
+{% else %}
+    <p>No user found</p>
+{% endif %}
+    
+</div>
+<div>
+    {% if characterList %}
+        <ul>
+            
+            {% for character in characterList %}
+                <li>
+                    <a href="character/{{character.id}}">{{character.character_name}} | {{character.id}}
+                    </a>
+                </li>
+            {% endfor %}
+                
+        </ul>
+    {% else %}
+        <p>No character found</p>
+    {% endif %}
+        
+    </div>
+    
