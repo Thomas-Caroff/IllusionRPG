@@ -1,13 +1,13 @@
 from django.db import models
-import uuid
+import utils.customUUID as guid
 
 class GUIDModel(models.Model):
-    guid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    guid = models.UUIDField(primary_key=True, default=guid.custom_id, editable=False)
 
 class User(GUIDModel):
     username = models.CharField(max_length=200)
     pseudo = models.CharField(max_length=200)
-    party = models.JSONField()
+    party = models.CharField(max_length=200)
 
     def __str__(self):
         return self.username
