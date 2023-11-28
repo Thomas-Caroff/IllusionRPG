@@ -1,5 +1,7 @@
+<h1>Page principale</h1>
 <div>
-{% if userList %}
+    <h2>Utilisateurs</h2>
+    {% if userList %}
     <ul>
         
         {% for user in userList %}
@@ -16,6 +18,7 @@
     
 </div>
 <div>
+    <h2>Personnages</h2>
     {% if characterList %}
         <ul>
             
@@ -31,5 +34,4 @@
         <p>No character found</p>
     {% endif %}
         
-    </div>
-    
+</div>

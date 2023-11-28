@@ -1,0 +1,22 @@
+{% if user %}
+<h1>Page utilisateur | {{user.username}}</h1>
+<h2>{{user.pseudo}}</h1>
+<div>
+    <p>Liste des personnages</p>
+        <ul>
+            {% for character in character_list %}
+                <li>{{character}}</li>
+            {% endfor %}
+        </ul>
+</div>
+<div>
+    <p>Liste des équipes</p>
+    <ul>
+        {% for party in party_list %}
+            <li>{{party}}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% else %}
+    <p>No user found</p>
+{% endif %}
