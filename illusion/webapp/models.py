@@ -10,19 +10,30 @@ class User(GUIDModel):
     pseudo = models.CharField(default="", blank=True, max_length=200, unique=True)
     party_list = models.CharField(blank=True, max_length=200)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.username
 
 
 class Campaign(GUIDModel):
     campaign_name = models.CharField(default="", max_length=100, unique=True)
+    quadgram = models.CharField(default="", max_length=4, unique=True)
     description = models.CharField(blank=True, default="", max_length=5000)
+
+    def __str__(self) -> str:
+        return self.campaign_name
 
 
 class Party(GUIDModel):
     party_name = models.CharField(default="", max_length=100)
-    quadgram = models.CharField(default="", max_length=4, unique=True)
     campaign_id = models.ForeignKey(Campaign, on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return self.party_name
+
+
+class DM(GUIDModel):
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    party_id = models.ForeignKey(Party, on_delete=models.CASCADE)
 
 
 class Character(GUIDModel):

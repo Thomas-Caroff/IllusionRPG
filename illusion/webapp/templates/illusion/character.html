@@ -1,0 +1,44 @@
+{% if character %}
+<h1>Page personnage | {{character.character_name}} | Niveau {{character.level}}</h1>
+
+{% if user %}
+    <h2>Joué par {{user.pseudo}}</h2>
+{% endif %}
+<h2>Description</h2>
+<p>{{character.description}}</p>
+<h2>Statistiques</h2>
+<div>
+    <table>
+        <tr>
+            <td>Force</td>
+            <td>{{character.strength}}</td>
+        </tr>
+        <tr>
+            <td>Agilité</td>
+            <td>{{character.agility}}</td>
+        </tr>
+        <tr>
+            <td>Intelligence</td>
+            <td>{{character.intelligence}}</td></tr>
+        <tr>
+            <td>Sagesse</td>
+            <td>{{character.wisdom}}</td></tr>
+        <tr>
+            <td>Diplomatie</td>
+            <td>{{character.diplomacy}}</td></tr>
+        <tr>
+            <td>Charisme</td>
+            <td>{{character.charisma}}</td></tr>
+    </table>
+</div>
+<h2>Accessoires</h2>
+<p>{{character.items}}</p>
+
+{% if party %}
+    <h2>Equipe</h2>
+    <p>{{party.party_name}}</p>        
+{% endif %}
+    
+{% else %}
+    <p>No user found</p>
+{% endif %}

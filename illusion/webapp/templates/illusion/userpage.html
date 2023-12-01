@@ -5,7 +5,10 @@
     <p>Liste des personnages</p>
         <ul>
             {% for character in character_list %}
-                <li>{{character}}</li>
+                <li>
+                    <a href="../character/{{character.id}}">{{character.character_name}}
+                    </a>
+                </li>
             {% endfor %}
         </ul>
 </div>
