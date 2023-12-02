@@ -6,7 +6,7 @@ import utils.datastorer as ds
 def homepage(request):
     userList = User.objects.order_by("username")
     characterList = Character.objects.order_by("-level")
-    context = {"userList": userList, "characterList": characterList}
+    context = {"userList": userList, "characterList": characterList, "title": "Bienvenue sur IllusionJDR"}
     return render(request, "illusion/homepage.html", context)
 
 def party_detail(request, party_id):

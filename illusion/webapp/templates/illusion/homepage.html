@@ -1,3 +1,21 @@
+{% include 'illusion/navbar.html' %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'illusion/style.css' %}">
+
+<head>
+    <title>
+        {% if title %}
+            {{title}}
+        {% endif %}</title>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+</head>
+<body>
+{% block navbar %}
+{% endblock %}
+</body>
+
 <h1>Page principale</h1>
 <div>
     <h2>Utilisateurs</h2>
