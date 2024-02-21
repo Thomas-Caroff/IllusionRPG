@@ -1,21 +1,19 @@
 <head>
-    {% load bootstrap5 %}
-    {% bootstrap_css %}
-    {% bootstrap_javascript %}
+	{% load bootstrap5 %} {% bootstrap_css %} {% bootstrap_javascript %}
 </head>
 
 {% block navbar %}
 <nav class="navbar navbar-dark bg-dark">
-    <ul class="nav bg-">
-        <li class="nav-item">
-            <a class="nav-link link-light" href="/">ACCUEIL</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link link-light" href="/user">CONTENU PARTAGÉ</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link link-light" href="/user">RESSOURCES</a>
-        </li>
-    </ul>
+	<ul class="nav bg-">
+		<li class="nav-item">
+			<a class="nav-link link-light" href="/">ACCUEIL</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link link-light" href="/user">CONTENU PARTAGÉ</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link link-light" href="/user">RESSOURCES</a>
+		</li>
+	</ul>
 </nav>
 {% endblock navbar %}

@@ -1,55 +1,42 @@
-{% include 'illusion/navbar.html' %}
-{% load static %}
-<link rel="stylesheet" href="{% static 'illusion/style.css' %}">
+{% include 'illusion/navbar.html' %} {% load static %}
+<link rel="stylesheet" href="{% static 'illusion/style.css' %}" />
 
 <head>
-    <title>
-        {% if title %}
-            {{title}}
-        {% endif %}</title>
-    {% load bootstrap5 %}
-    {% bootstrap_css %}
-    {% bootstrap_javascript %}
+	<title>{% if title %} {{title}} {% endif %}</title>
+	{% load bootstrap5 %} {% bootstrap_css %} {% bootstrap_javascript %}
 </head>
 <body>
-{% block navbar %}
-{% endblock %}
+	{% block navbar %} {% endblock %}
 </body>
 
 <h1>Page principale</h1>
 <div>
-    <h2>Utilisateurs</h2>
-    {% if userList %}
-    <ul>
-        
-        {% for user in userList %}
-            <li>
-                <a href="./user/{{user.id}}">{{user.username}} | {{user.id}}
-                </a>
-            </li>
-        {% endfor %}
-            
-    </ul>
-{% else %}
-    <p>No user found</p>
-{% endif %}
-    
+	<h2>Utilisateurs</h2>
+	{% if userList %}
+	<ul>
+		{% for user in userList %}
+		<li>
+			<a href="./user/{{user.id}}">{{user.username}} | {{user.id}} </a>
+		</li>
+		{% endfor %}
+	</ul>
+	{% else %}
+	<p>No user found</p>
+	{% endif %}
 </div>
 <div>
-    <h2>Personnages</h2>
-    {% if characterList %}
-        <ul>
-            
-            {% for character in characterList %}
-                <li>
-                    <a href="character/{{character.id}}">{{character.character_name}} | {{character.id}}
-                    </a>
-                </li>
-            {% endfor %}
-                
-        </ul>
-    {% else %}
-        <p>No character found</p>
-    {% endif %}
-        
+	<h2>Personnages</h2>
+	{% if characterList %}
+	<ul>
+		{% for character in characterList %}
+		<li>
+			<a href="character/{{character.id}}"
+				>{{character.character_name}} | {{character.id}}
+			</a>
+		</li>
+		{% endfor %}
+	</ul>
+	{% else %}
+	<p>No character found</p>
+	{% endif %}
 </div>
