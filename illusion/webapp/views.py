@@ -1,8 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
-from django.forms.models import model_to_dict
-
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
@@ -22,8 +20,8 @@ def user_list(request):
 def user(request, pk):
     if request.method == 'GET':
         data = User.objects.filter(pk=pk)
-        serialUser = UserSerializer(data, context={'request': request}, many=True)
-        return Response(serialUser.data)
+        serializer = UserSerializer(data, context={'request': request}, many=True)
+        return Response(serializer.data)
     
     elif request.method == 'POST':
         request.data['pk'] = cuuid.custom_id()
@@ -47,6 +45,142 @@ def user(request, pk):
     elif request.method == 'DELETE':
         user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['GET', 'POST', 'PUT', 'DELETE'])
+def campaign(request, pk):
+    if request.method == 'GET':
+        data = Campaign.objects.filter(pk=pk)
+        serializer = CampaignSerializer(data, context={'request': request}, many=True)
+        return Response(serializer.data)
+    
+    elif request.method == 'POST':
+        request.data['pk'] = cuuid.custom_id()
+        serializer = CampaignSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    try:
+        campaign = Campaign.objects.get(pk=pk)
+    except Campaign.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'PUT':
+        serializer = CampaignSerializer(campaign, data=request.data, context={'request': request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    elif request.method == 'DELETE':
+        campaign.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['GET'])
+def baseSystem(request, pk):
+    if request.method == 'GET':
+        data = BaseSystem.objects.filter(pk=pk)
+        serializer = BaseSystemSerializer(data, context={'request': request}, many=True)
+        return Response(serializer.data)
+
+@api_view(['GET'])
+def baseSystemList(request):
+    if request.method == 'GET':
+        data = BaseSystem.objects.all()
+        serializer = BaseSystemSerializer(data, context={'request': request}, many=True)
+        return Response(serializer.data)
+
+@api_view(['GET', 'POST', 'PUT', 'DELETE'])
+def campaign(request, pk):
+    if request.method == 'GET':
+        data = Campaign.objects.filter(pk=pk)
+        serializer = CampaignSerializer(data, context={'request': request}, many=True)
+        return Response(serializer.data)
+    
+    elif request.method == 'POST':
+        request.data['pk'] = cuuid.custom_id()
+        serializer = CampaignSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    try:
+        campaign = Campaign.objects.get(pk=pk)
+    except Campaign.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'PUT':
+        serializer = CampaignSerializer(campaign, data=request.data, context={'request': request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    elif request.method == 'DELETE':
+        campaign.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['GET', 'POST', 'PUT', 'DELETE'])
+def party(request, pk):
+    if request.method == 'GET':
+        data = Party.objects.filter(pk=pk)
+        serializer = PartySerializer(data, context={'request': request}, many=True)
+        return Response(serializer.data)
+    
+    elif request.method == 'POST':
+        request.data['pk'] = cuuid.custom_id()
+        serializer = PartySerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    try:
+        party = Party.objects.get(pk=pk)
+    except Party.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'PUT':
+        serializer = PartySerializer(party, data=request.data, context={'request': request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    elif request.method == 'DELETE':
+        party.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['GET', 'POST', 'PUT', 'DELETE'])
+def dm(request, pk):
+    if request.method == 'GET':
+        data = DM.objects.filter(pk=pk)
+        serializer = DMSerializer(data, context={'request': request}, many=True)
+        return Response(serializer.data)
+    
+    elif request.method == 'POST':
+        request.data['pk'] = cuuid.custom_id()
+        serializer = DMSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    try:
+        dm = DM.objects.get(pk=pk)
+    except DM.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'PUT':
+        serializer = DM(dm, data=request.data, context={'request': request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    elif request.method == 'DELETE':
+        dm.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+########################################################################################
 
 def homepage(request):
     userList = User.objects.order_by("username")

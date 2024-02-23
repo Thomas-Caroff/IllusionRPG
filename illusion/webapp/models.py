@@ -45,6 +45,7 @@ class Character_Class(GUIDModel):
     class_name = models.CharField(default="Commoner", max_length=200)
     base_system = models.ForeignKey(BaseSystem, null=True, blank=True, on_delete=models.SET_NULL)
     is_homebrew = models.BooleanField(default=False)
+    hp_dice = models.IntegerField(default=6)
     
     strength = models.IntegerField(default=0)
     agility = models.IntegerField(default=0)
@@ -64,6 +65,27 @@ class Character_Race(GUIDModel):
     wisdom = models.IntegerField(default=0) 
     diplomacy = models.IntegerField(default=0)
     charisma = models.IntegerField(default=0)
+
+class Aptitude(GUIDModel):
+    is_from_class = models.BooleanField(default=False)
+    is_from_race = models.BooleanField(default=True)
+    aptitude_name = models.CharField(default="", max_length=200)
+    description = models.CharField(blank=True, default="", max_length=5000)
+
+class Weapon(GUIDModel):
+    weapon_name = models.CharField(default="", max_length=200)
+    damages = models.IntegerField(default=4)
+    damage_type = models.CharField(blank=True, default="", max_length=100)
+    properties = models.CharField(blank=True, default="", max_length=500)
+    ammo = models.IntegerField(blank = True, default=0)
+
+class Armor(GUIDModel):
+    armor_name = models.CharField(default="", max_length=200)
+    ca = models.IntegerField(default=11)
+    max_dex_modifier = models.IntegerField(default=2)
+    required_force = models.IntegerField(default=0)
+    disadvantage_discretion = models.BooleanField(default=False)
+    disadvantage_athletism = models.BooleanField(default=False)
 
 class Character(GUIDModel):
     ##Global
@@ -88,3 +110,16 @@ class Character(GUIDModel):
 
     def __str__(self):
         return self.character_name
+
+class characterWeapon(GUIDModel):
+    character_id = models.ForeignKey(Character, on_delete=models.CASCADE)
+    weapon_type = models.ForeignKey(Weapon, on_delete=models.CASCADE)
+    nickname = models.CharField(blank=True, default="", max_length=100)
+    is_equipped = models.BooleanField(default=False)
+    ammo_count = models.IntegerField(blank = True, default=0)
+
+class characterArmor(GUIDModel):
+    character_id = models.ForeignKey(Character, on_delete=models.CASCADE)
+    weapon_type = models.ForeignKey(Armor, on_delete=models.CASCADE)
+    nickname = models.CharField(blank=True, default="", max_length=100)
+    is_equipped = models.BooleanField(default=False)
