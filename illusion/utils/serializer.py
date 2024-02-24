@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from webapp.models import User, Character, Party, Campaign, BaseSystem, DM
+from webapp.models import *
 
 class UserSerializer(serializers.ModelSerializer):
 
@@ -30,3 +30,61 @@ class DMSerializer(serializers.ModelSerializer):
     class Meta:
         model = DM
         fields = ('pk', 'user_id', 'party_id')
+
+class CharacterSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Character
+        fields = ('pk', 'user_id', 'character_name', 'description',
+                'character_class_id', 'character_race_id', 'party_id', 'items', 'level',
+                'strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma', 'diplomacy')
+
+class CharacterClassSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = CharacterClass
+        fields = ('pk', 'class_name', 'base_system_id', 'is_homebrew', 'hp_dice',
+                'strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma', 'diplomacy')
+
+class CharacterRaceSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = CharacterRace
+        fields = ('pk', 'race_name', 'base_system_id', 'is_homebrew',
+                'strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma', 'diplomacy')
+
+class AptitudeSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Aptitude
+        fields = ('pk', 'is_from_class', 'is_from_race', 'is_homebrew', 'aptitude_name', 'description')
+
+class SpellSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Spell
+        fields = ('pk', 'spell_name', 'damages', 'level', 'property', 'is_bonus_action', 'is_homebrew')
+
+class WeaponSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Weapon
+        fields = ('pk', 'weapon_name', 'damages', 'damage_type', 'properties', 'ammo')
+
+class ArmorSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Armor
+        fields = ('pk', 'armor_name', 'ca', 'max_dex_modifier', 'required_force', 'disadvantage_stealth', 'disadvantage_athletism')
+
+class CharacterWeaponSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = CharacterWeapon
+        fields = ('pk', 'character_id', 'weapon_type', 'nickname', 'is_equipped', 'ammo_count')
+
+class CharacterArmorSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = CharacterArmor
+        fields = ('pk', 'character_id', 'weapon_type', 'nickname', 'is_equipped')
