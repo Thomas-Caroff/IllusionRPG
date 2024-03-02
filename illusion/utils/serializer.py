@@ -36,7 +36,9 @@ class CharacterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Character
         fields = ('pk', 'user_id', 'character_name', 'description',
-                'character_class_id', 'character_race_id', 'party_id', 'items', 'level',
+                'character_class_id', 'character_race_id', 'party_id', 
+                'copper_coins', 'silver_coins', 'gold_coins', 'platinum_coins',
+                'level', 'proficiency_bonus',
                 'strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma', 'diplomacy')
 
 class CharacterClassSerializer(serializers.ModelSerializer):
@@ -69,13 +71,13 @@ class WeaponSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Weapon
-        fields = ('pk', 'weapon_name', 'damages', 'damage_type', 'properties', 'ammo')
+        fields = ('pk', 'weapon_name', 'damages', 'damage_type', 'is_damaged', 'price', 'properties', 'ammo')
 
 class ArmorSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Armor
-        fields = ('pk', 'armor_name', 'ca', 'max_dex_modifier', 'required_force', 'disadvantage_stealth', 'disadvantage_athletism')
+        fields = ('pk', 'armor_name', 'ca', 'max_dex_modifier', 'is_damaged', 'price', 'required_force', 'disadvantage_stealth', 'disadvantage_athletism')
 
 class CharacterWeaponSerializer(serializers.ModelSerializer):
 
@@ -88,3 +90,9 @@ class CharacterArmorSerializer(serializers.ModelSerializer):
     class Meta:
         model = CharacterArmor
         fields = ('pk', 'character_id', 'weapon_type', 'nickname', 'is_equipped')
+
+class ItemSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Items
+        fields = ('pk', 'item_name', 'price', 'is_homebrew')

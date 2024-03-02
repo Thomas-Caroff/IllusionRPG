@@ -82,6 +82,8 @@ class Spell(GUIDModel):
 class Weapon(GUIDModel):
     weapon_name = models.CharField(default="", max_length=200)
     damages = models.IntegerField(default=4)
+    is_damaged = models.BooleanField(default=False)
+    price = models.IntegerField(default=0) #price in copper coins
     damage_type = models.CharField(blank=True, default="", max_length=100)
     properties = models.CharField(blank=True, default="", max_length=500)
     ammo = models.IntegerField(blank = True, default=0)
@@ -89,10 +91,17 @@ class Weapon(GUIDModel):
 class Armor(GUIDModel):
     armor_name = models.CharField(default="", max_length=200)
     ca = models.IntegerField(default=11)
+    is_damaged = models.BooleanField(default=False)
+    price = models.IntegerField(default=0) #price in copper coins
     max_dex_modifier = models.IntegerField(default=2)
     required_force = models.IntegerField(default=0)
     disadvantage_stealth = models.BooleanField(default=False)
     disadvantage_athletism = models.BooleanField(default=False)
+
+class Items(GUIDModel):
+    item_name = models.CharField(default="", max_length=200)
+    price = models.IntegerField(default=0) #price in copper coins
+    is_homebrew = models.BooleanField(default=False)
 
 class Character(GUIDModel):
     ##Global
@@ -103,11 +112,16 @@ class Character(GUIDModel):
     character_race_id = models.ForeignKey(CharacterRace, null=True, blank=True, on_delete=models.SET_NULL)
     party_id = models.ForeignKey(Party, null=True, blank=True, on_delete=models.SET_NULL)
 
-    ##Accessories
-    items = models.TextField(blank=True, default="", max_length=500)
-    level = models.IntegerField(default=0)
+    ##Money
+    copper_coins = models.IntegerField(default=0)
+    silver_coins = models.IntegerField(default=0)
+    gold_coins = models.IntegerField(default=0)
+    platinum_coins = models.IntegerField(default=0)
 
     ##Stats
+    level = models.IntegerField(default=0)
+    proficiency_bonus = models.IntegerField(default=2)
+
     strength = models.IntegerField(default=10)
     dexterity = models.IntegerField(default=10)
     constitution = models.IntegerField(null=True, default=10)
@@ -131,3 +145,9 @@ class CharacterArmor(GUIDModel):
     weapon_type = models.ForeignKey(Armor, on_delete=models.CASCADE)
     nickname = models.CharField(blank=True, default="", max_length=100)
     is_equipped = models.BooleanField(default=False)
+
+class CharacterItems(GUIDModel):
+    character_id = models.ForeignKey(Character, null=True, blank=True, on_delete=models.SET_NULL)
+    item_id = models.ForeignKey(Items, null=True, blank=True, on_delete=models.SET_NULL)
+    nickname = models.CharField(blank=True, default="", max_length=100)
+    is_item_hidden = models.BooleanField(default=False)

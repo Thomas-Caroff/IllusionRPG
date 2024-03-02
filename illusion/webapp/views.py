@@ -44,7 +44,7 @@ def requestHandler(request, Model, Serializer, pk=None):
 #region USER
 @api_view(['GET'])
 def userList(request):
-    data = User.objects.order_by("username")
+    data = User.objects.values("pk", "username")
     serialUserList = UserSerializer(data, context={'request': request}, many=True)
     return Response(serialUserList.data)
 
@@ -61,7 +61,7 @@ def campaign(request, pk):
 @api_view(['GET'])
 def campaignList(request):
     if request.method == 'GET':
-        data = Campaign.objects.all()
+        data = Campaign.objects.values("pk", "quadgram")
         serializer = CampaignSerializer(data, context={'request': request}, many=True)
         return Response(serializer.data)
 #endregion
@@ -74,7 +74,7 @@ def baseSystem(request, pk):
 @api_view(['GET'])
 def baseSystemList(request):
     if request.method == 'GET':
-        data = BaseSystem.objects.all()
+        data = BaseSystem.objects.values("pk", "system_name")
         serializer = BaseSystemSerializer(data, context={'request': request}, many=True)
         return Response(serializer.data)
 #endregion
@@ -87,7 +87,7 @@ def party(request, pk):
 @api_view(['GET'])
 def partyList(request):
     if request.method == 'GET':
-        data = Party.objects.all()
+        data = Party.objects.values("pk", "party_list")
         serializer = PartySerializer(data, context={'request': request}, many=True)
         return Response(serializer.data)
 #endregion
@@ -113,7 +113,7 @@ def character(request, pk):
 @api_view(['GET'])
 def characterList(request):
     if request.method == 'GET':
-        data = Character.objects.all()
+        data = Character.objects.values("pk", "user_id", "character_name")
         serializer = CharacterSerializer(data, context={'request': request}, many=True)
         return Response(serializer.data)
 
@@ -121,7 +121,7 @@ def characterList(request):
 @api_view(['GET'])
 def characterClassList(request):
     if request.method == 'GET':
-        data = CharacterClass.objects.all()
+        data = CharacterClass.objects.values("pk", "class_name")
         serializer = CharacterClassSerializer(data, context={'request': request}, many=True)
         return Response(serializer.data)
 
@@ -134,7 +134,7 @@ def characterClass(request, pk):
 @api_view(['GET'])
 def characterRaceList(request):
     if request.method == 'GET':
-        data = CharacterRace.objects.all()
+        data = CharacterRace.objects.values("pk", "class_race")
         serializer = CharacterRaceSerializer(data, context={'request': request}, many=True)
         return Response(serializer.data)
 
@@ -142,6 +142,19 @@ def characterRaceList(request):
 def characterRace(request, pk):
     return requestHandler(request, CharacterRace, CharacterRaceSerializer, pk)
 #endregion RACE
+
+#region WEAPON
+@api_view(['GET', 'POST', 'PUT', 'DELETE'])
+def item(request, pk):
+    return requestHandler(request, Items, ItemSerializer, pk)
+
+@api_view(['GET'])
+def itemList(request):
+    if request.method == 'GET':
+        data = Items.objects.values("pk", "item_name")
+        serializer = ItemSerializer(data, context={'request': request}, many=True)
+        return Response(serializer.data)
+#endregion
 
 #region APTITUDE
 @api_view(['GET', 'POST', 'PUT', 'DELETE'])
@@ -151,7 +164,7 @@ def aptitude(request, pk):
 @api_view(['GET'])
 def aptitudeList(request):
     if request.method == 'GET':
-        data = Aptitude.objects.all()
+        data = Aptitude.objects.values("pk", "aptitude_name")
         serializer = AptitudeSerializer(data, context={'request': request}, many=True)
         return Response(serializer.data)
 #endregion
@@ -164,7 +177,7 @@ def spell(request, pk):
 @api_view(['GET'])
 def spellList(request):
     if request.method == 'GET':
-        data = Spell.objects.all()
+        data = Spell.objects.values("pk", "spell_name")
         serializer = SpellSerializer(data, context={'request': request}, many=True)
         return Response(serializer.data)
 #endregion
@@ -177,7 +190,7 @@ def weapon(request, pk):
 @api_view(['GET'])
 def weaponList(request):
     if request.method == 'GET':
-        data = Weapon.objects.all()
+        data = Weapon.objects.values("pk", "weapon_name")
         serializer = WeaponSerializer(data, context={'request': request}, many=True)
         return Response(serializer.data)
 #endregion
@@ -190,7 +203,7 @@ def armor(request, pk):
 @api_view(['GET'])
 def armorList(request):
     if request.method == 'GET':
-        data = Armor.objects.all()
+        data = Armor.objects.values("pk", "armor_name")
         serializer = ArmorSerializer(data, context={'request': request}, many=True)
         return Response(serializer.data)
 #endregion
