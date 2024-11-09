@@ -113,9 +113,16 @@ def character(request, pk):
 @api_view(['GET'])
 def characterList(request):
     if request.method == 'GET':
-        data = Character.objects.values("pk", "user_id", "character_name")
+        data = Character.objects.only("pk", "user_id", "character_name", "character_class_id", "character_race_id")
         serializer = CharacterSerializer(data, context={'request': request}, many=True)
-        return Response(serializer.data)
+
+        # Filtering to only send minimal data
+        filtered_data = [
+            {key: item[key] for key in ["pk", "user_id", "character_name", "character_class_id", "character_race_id"]}
+            for item in serializer.data
+        ]
+        
+        return Response(filtered_data)
 
 #region CLASS
 @api_view(['GET'])

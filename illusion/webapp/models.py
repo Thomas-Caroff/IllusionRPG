@@ -133,6 +133,13 @@ class Character(GUIDModel):
     def __str__(self):
         return self.character_name
 
+class Skills(GUIDModel):
+    skill_name = models.CharField(default="", max_length=50)
+    character_id = models.ForeignKey(Character, on_delete=models.CASCADE)
+    base_system_id = models.ForeignKey(BaseSystem, on_delete=models.CASCADE)
+    is_expertise = models.BooleanField(default=False)
+    is_saving_throw = models.BooleanField(default=False)
+
 class CharacterWeapon(GUIDModel):
     character_id = models.ForeignKey(Character, on_delete=models.CASCADE)
     weapon_type = models.ForeignKey(Weapon, on_delete=models.CASCADE)
