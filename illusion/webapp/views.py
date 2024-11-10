@@ -45,6 +45,7 @@ def requestHandler(request, Model, Serializer, pk=None):
 @api_view(['GET'])
 def userList(request):
     data = User.objects.values("pk", "username")
+    print(data)
     serialUserList = UserSerializer(data, context={'request': request}, many=True)
     return Response(serialUserList.data)
 
