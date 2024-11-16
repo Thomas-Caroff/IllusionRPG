@@ -36,10 +36,10 @@ class CharacterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Character
         fields = ('pk', 'user_id', 'character_name', 'description',
-                'character_class_id', 'character_race_id', 'party_id', 
+                'character_class_id', 'character_species_id', 'party_id', 
                 'copper_coins', 'silver_coins', 'gold_coins', 'platinum_coins',
                 'level', 'proficiency_bonus',
-                'strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma', 'diplomacy')
+                'character_stats')
 
 class CharacterClassSerializer(serializers.ModelSerializer):
 
@@ -48,18 +48,41 @@ class CharacterClassSerializer(serializers.ModelSerializer):
         fields = ('pk', 'class_name', 'base_system_id', 'is_homebrew', 'hp_dice',
                 'strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma', 'diplomacy')
 
-class CharacterRaceSerializer(serializers.ModelSerializer):
+class CharacterSpeciesSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = CharacterRace
-        fields = ('pk', 'race_name', 'base_system_id', 'is_homebrew',
+        model = CharacterSpecies
+        fields = ('pk', 'species_name', 'base_system_id', 'is_homebrew',
                 'strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma', 'diplomacy')
+
+class CharacterStatsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CharacterStats
+        fields = (
+            'id',
+            'strength',
+            'str_mod',
+            'dexterity', 
+            'dex_mod',
+            'constitution', 
+            'con_mod',
+            'intelligence', 
+            'int_mod',
+            'wisdom', 
+            'wis_mod',
+            'charisma', 
+            'cha_mod',
+            'diplomacy', 
+            'dip_mod',
+            'physic', 
+            'social', 
+            'mental')
 
 class AptitudeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Aptitude
-        fields = ('pk', 'is_from_class', 'is_from_race', 'is_homebrew', 'aptitude_name', 'description')
+        fields = ('pk', 'is_from_class', 'is_from_species', 'is_homebrew', 'aptitude_name', 'description')
 
 class SpellSerializer(serializers.ModelSerializer):
 
@@ -96,3 +119,15 @@ class ItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Items
         fields = ('pk', 'item_name', 'price', 'is_homebrew')
+
+class SkillSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Skill
+        fields = ('pk', 'skill_name', 'is_saving_throw')
+
+class SkillSetSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = SkillSet
+        fields = ('pk', 'base_system_id', 'skill_list')

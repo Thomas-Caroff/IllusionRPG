@@ -114,12 +114,12 @@ def character(request, pk):
 @api_view(['GET'])
 def characterList(request):
     if request.method == 'GET':
-        data = Character.objects.only("pk", "user_id", "character_name", "character_class_id", "character_race_id")
+        data = Character.objects.only("pk", "user_id", "character_name", "character_class_id", "character_species_id")
         serializer = CharacterSerializer(data, context={'request': request}, many=True)
 
         # Filtering to only send minimal data
         filtered_data = [
-            {key: item[key] for key in ["pk", "user_id", "character_name", "character_class_id", "character_race_id"]}
+            {key: item[key] for key in ["pk", "user_id", "character_name", "character_class_id", "character_species_id"]}
             for item in serializer.data
         ]
         
@@ -138,18 +138,31 @@ def characterClass(request, pk):
     return requestHandler(request, CharacterClass, CharacterClassSerializer, pk)
 #endregion CLASS
 
-#region RACE
+#region Species
 @api_view(['GET'])
-def characterRaceList(request):
+def characterSpeciesList(request):
     if request.method == 'GET':
-        data = CharacterRace.objects.values("pk", "class_race")
-        serializer = CharacterRaceSerializer(data, context={'request': request}, many=True)
+        data = CharacterSpecies.objects.values("pk", "species_name")
+        serializer = CharacterSpeciesSerializer(data, context={'request': request}, many=True)
         return Response(serializer.data)
 
 @api_view(['GET', 'POST', 'PUT', 'DELETE'])
-def characterRace(request, pk):
-    return requestHandler(request, CharacterRace, CharacterRaceSerializer, pk)
-#endregion RACE
+def characterSpecies(request, pk):
+    return requestHandler(request, CharacterSpecies, CharacterSpeciesSerializer, pk)
+#endregion Species
+
+#region Species
+@api_view(['GET'])
+def characterStatsList(request):
+    if request.method == 'GET':
+        data = CharacterStats.objects.values("pk", "species_name")
+        serializer = CharacterStatsSerializer(data, context={'request': request}, many=True)
+        return Response(serializer.data)
+
+@api_view(['GET', 'POST', 'PUT', 'DELETE'])
+def characterStats(request, pk):
+    return requestHandler(request, CharacterStats, CharacterStatsSerializer, pk)
+#endregion Species
 
 #region WEAPON
 @api_view(['GET', 'POST', 'PUT', 'DELETE'])
@@ -161,6 +174,23 @@ def itemList(request):
     if request.method == 'GET':
         data = Items.objects.values("pk", "item_name")
         serializer = ItemSerializer(data, context={'request': request}, many=True)
+        return Response(serializer.data)
+#endregion
+
+#region SKILLS
+@api_view(['GET', 'POST', 'PUT', 'DELETE'])
+def skill(request, pk):
+    return requestHandler(request, Skill, SkillSerializer, pk)
+
+@api_view(['GET', 'POST', 'PUT', 'DELETE'])
+def skillSet(request, pk):
+    return requestHandler(request, SkillSet, SkillSetSerializer, pk)
+
+@api_view(['GET'])
+def skillSetList(request):
+    if request.method == 'GET':
+        data = SkillSet.objects.values("pk", "base_system_id")
+        serializer = SkillSetSerializer(data, context={'request': request}, many=True)
         return Response(serializer.data)
 #endregion
 
