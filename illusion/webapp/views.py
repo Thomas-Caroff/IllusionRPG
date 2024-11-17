@@ -45,7 +45,6 @@ def requestHandler(request, Model, Serializer, pk=None):
 @api_view(['GET'])
 def userList(request):
     data = User.objects.values("pk", "username")
-    print(data)
     serialUserList = UserSerializer(data, context={'request': request}, many=True)
     return Response(serialUserList.data)
 
@@ -181,6 +180,13 @@ def itemList(request):
 @api_view(['GET', 'POST', 'PUT', 'DELETE'])
 def skill(request, pk):
     return requestHandler(request, Skill, SkillSerializer, pk)
+
+@api_view(['GET'])
+def skillList(request):
+    if request.method == 'GET':
+        data = Skill.objects.all()
+        serializer = SkillSerializer(data, context={'request': request}, many=True)
+        return Response(serializer.data)
 
 @api_view(['GET', 'POST', 'PUT', 'DELETE'])
 def skillSet(request, pk):

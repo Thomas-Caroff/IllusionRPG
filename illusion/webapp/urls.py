@@ -20,6 +20,7 @@ urlpatterns = [
     re_path(r"^characterstats/([a-z0-9]*)$", views.characterStats),
     re_path(r"^aptitude/$", views.aptitudeList),
     re_path(r"^aptitude/([a-z0-9]*)$", views.aptitude),
+    re_path(r"^skill/$", views.skillList),
     re_path(r"^skill/([a-z0-9]*)$", views.skill),
     re_path(r"^skillset/$", views.skillSetList),
     re_path(r"^skillset/([a-z0-9]*)$", views.skillSet),

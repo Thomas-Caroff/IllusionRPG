@@ -53,6 +53,32 @@ class DM(GUIDModel):
         return f"DM: {self.user_id.username} \| Party: {self.party_id.party_name}"
 #endregion
 
+#region Character Stat
+class CharacterStats(GUIDModel):
+    #DnD/FF/PF
+    strength = models.IntegerField(null=True, default=10)
+    str_mod = models.IntegerField(null=True, default=0)
+    dexterity = models.IntegerField(null=True, default=10)
+    dex_mod = models.IntegerField(null=True, default=0)
+    constitution = models.IntegerField(null=True, default=10)
+    con_mod = models.IntegerField(null=True, default=0)
+    intelligence = models.IntegerField(null=True, default=10)
+    int_mod = models.IntegerField(null=True, default=0)
+    wisdom = models.IntegerField(null=True, default=10)
+    wis_mod = models.IntegerField(null=True, default=0)
+    charisma = models.IntegerField(null=True, default=10)
+    cha_mod = models.IntegerField(null=True, default=0)
+
+    #Illusion
+    diplomacy = models.IntegerField(null=True, blank=True, default=None)
+    dip_mod = models.IntegerField(null=True, blank=True, default=None)
+
+    #Aventure
+    physic = models.IntegerField(null=True, blank=True, default=None)
+    social = models.IntegerField(null=True, blank=True, default=None)
+    mental = models.IntegerField(null=True, blank=True, default=None)
+#endregion
+
 #region Character Class
 class CharacterClass(GUIDModel):
     class_name = models.CharField(default="Commoner", max_length=200)
@@ -60,13 +86,7 @@ class CharacterClass(GUIDModel):
     is_homebrew = models.BooleanField(default=False)
     hp_dice = models.IntegerField(null=True, default=6)
     
-    strength = models.IntegerField(default=0)
-    dexterity = models.IntegerField(default=0)
-    constitution = models.IntegerField(null=True, default=10)
-    intelligence = models.IntegerField(default=0)
-    wisdom = models.IntegerField(default=0)
-    charisma = models.IntegerField(default=0)
-    diplomacy = models.IntegerField(null=True, default=None)
+    bonus_stats = models.ForeignKey(CharacterStats, null=True, blank=True, on_delete=models.SET_NULL)
 
     def __str__(self) -> str:
         return f"{self.class_name} \| {self.base_system}"
@@ -78,13 +98,7 @@ class CharacterSpecies(GUIDModel):
     base_system = models.ForeignKey(BaseSystem, null=True, blank=True, on_delete=models.SET_NULL)
     is_homebrew = models.BooleanField(default=False)
 
-    strength = models.IntegerField(default=0)
-    dexterity = models.IntegerField(default=0)
-    constitution = models.IntegerField(null=True, default=10)
-    intelligence = models.IntegerField(default=0)
-    wisdom = models.IntegerField(default=0)
-    charisma = models.IntegerField(default=0)
-    diplomacy = models.IntegerField(null=True, default=None)
+    bonus_stats = models.ForeignKey(CharacterStats, null=True, blank=True, on_delete=models.SET_NULL)
 
     def __str__(self) -> str:
         return f"{self.species_name} \| {self.base_system}"
@@ -94,6 +108,7 @@ class CharacterSpecies(GUIDModel):
 class Skill(GUIDModel):
     skill_name = models.CharField(default="", max_length=50)
     is_saving_throw = models.BooleanField(default=False)
+    modified_by = models.CharField(default="", max_length=20)
 
     def __str__(self) -> str:
         return f"{self.skill_name}"
@@ -103,7 +118,7 @@ class Skill(GUIDModel):
 class SkillSet(GUIDModel):
     base_system_id = models.ForeignKey(BaseSystem, null=True, blank=True, on_delete=models.CASCADE)
     skill_set_name = models.CharField(default="", max_length=200)
-    skill_list = models.CharField(default="", max_length=640)
+    skill_list = models.TextField(default="", max_length=640)
 
     def __str__(self) -> str:
         return f"{self.skill_set_name} ({self.base_system_id})"
@@ -174,32 +189,6 @@ class Items(GUIDModel):
         return self.item_name
 #endregion
 
-#region Character Stat
-class CharacterStats(GUIDModel):
-    #DnD/FF/PF
-    strength = models.IntegerField(null=True, default=10)
-    str_mod = models.IntegerField(null=True, default=0)
-    dexterity = models.IntegerField(null=True, default=10)
-    dex_mod = models.IntegerField(null=True, default=0)
-    constitution = models.IntegerField(null=True, default=10)
-    con_mod = models.IntegerField(null=True, default=0)
-    intelligence = models.IntegerField(null=True, default=10)
-    int_mod = models.IntegerField(null=True, default=0)
-    wisdom = models.IntegerField(null=True, default=10)
-    wis_mod = models.IntegerField(null=True, default=0)
-    charisma = models.IntegerField(null=True, default=10)
-    cha_mod = models.IntegerField(null=True, default=0)
-
-    #Illusion
-    diplomacy = models.IntegerField(null=True, blank=True, default=None)
-    dip_mod = models.IntegerField(null=True, blank=True, default=None)
-
-    #Aventure
-    physic = models.IntegerField(null=True, blank=True, default=None)
-    social = models.IntegerField(null=True, blank=True, default=None)
-    mental = models.IntegerField(null=True, blank=True, default=None)
-#endregion
-
 #region Character
 class Character(GUIDModel):
     ##Global
@@ -220,6 +209,9 @@ class Character(GUIDModel):
     level = models.IntegerField(default=0)
     proficiency_bonus = models.IntegerField(default=2)
     character_stats = models.ForeignKey(CharacterStats, null=True, blank=True, on_delete=models.SET_NULL)
+
+    skill_proficiency = models.TextField(default="", max_length=640)
+    skill_expertise = models.TextField(default="", max_length=640)
 
     def __str__(self):
         return self.character_name
