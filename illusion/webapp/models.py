@@ -50,7 +50,7 @@ class DM(GUIDModel):
     party_id = models.ForeignKey(Party, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
-        return f"DM: {self.user_id.username} \| Party: {self.party_id.party_name}"
+        return f"DM: {self.user_id.username} | Party: {self.party_id.party_name}"
 #endregion
 
 #region Character Stat
@@ -77,6 +77,11 @@ class CharacterStats(GUIDModel):
     physic = models.IntegerField(null=True, blank=True, default=None)
     social = models.IntegerField(null=True, blank=True, default=None)
     mental = models.IntegerField(null=True, blank=True, default=None)
+
+    #Skill Expertise
+    proficiency_bonus = models.IntegerField(default=2)
+    skill_proficiency = models.TextField(null=True, blank=True, default="", max_length=640)
+    skill_expertise = models.TextField(null=True, blank=True, default="", max_length=640)
 #endregion
 
 #region Character Class
@@ -89,7 +94,7 @@ class CharacterClass(GUIDModel):
     bonus_stats = models.ForeignKey(CharacterStats, null=True, blank=True, on_delete=models.SET_NULL)
 
     def __str__(self) -> str:
-        return f"{self.class_name} \| {self.base_system}"
+        return f"{self.class_name} | {self.base_system}"
 #endregion
 
 #region Character Species
@@ -101,14 +106,14 @@ class CharacterSpecies(GUIDModel):
     bonus_stats = models.ForeignKey(CharacterStats, null=True, blank=True, on_delete=models.SET_NULL)
 
     def __str__(self) -> str:
-        return f"{self.species_name} \| {self.base_system}"
+        return f"{self.species_name} | {self.base_system}"
 #endregion
 
 #region Skill
 class Skill(GUIDModel):
     skill_name = models.CharField(default="", max_length=50)
     is_saving_throw = models.BooleanField(default=False)
-    modified_by = models.CharField(default="", max_length=20)
+    modified_by = models.CharField(default="", null=True, blank=True, max_length=20)
 
     def __str__(self) -> str:
         return f"{self.skill_name}"
@@ -207,11 +212,7 @@ class Character(GUIDModel):
 
     ##Stats
     level = models.IntegerField(default=0)
-    proficiency_bonus = models.IntegerField(default=2)
     character_stats = models.ForeignKey(CharacterStats, null=True, blank=True, on_delete=models.SET_NULL)
-
-    skill_proficiency = models.TextField(default="", max_length=640)
-    skill_expertise = models.TextField(default="", max_length=640)
 
     def __str__(self):
         return self.character_name
@@ -249,3 +250,21 @@ class CharacterItems(GUIDModel):
 
     def __str__(self) -> str:
         return self.nickname if self.nickname else self.item_id.item_name
+#endregion
+
+#region Economy
+class BankAccount(GUIDModel):
+    bank_name = models.CharField(default="", max_length=100)
+    account_name = models.CharField(default="", max_length=100)
+    owner = models.ManyToManyField(Character)
+    pp = models.IntegerField(null=True, blank=True, default=0)
+    po = models.IntegerField(null=True, blank=True, default=0)
+    pa = models.IntegerField(null=True, blank=True, default=0)
+    pc = models.IntegerField(null=True, blank=True, default=0)
+    pe = models.IntegerField(null=True, blank=True, default=0)
+    item = models.ManyToManyField(Items)
+
+    def __str__(self) -> str:
+        bank_suffix = "[" + self.bank_name + "]" if self.bank_name else ""
+        return (self.account_name + bank_suffix)
+#endregion

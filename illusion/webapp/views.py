@@ -137,7 +137,7 @@ def characterClass(request, pk):
     return requestHandler(request, CharacterClass, CharacterClassSerializer, pk)
 #endregion CLASS
 
-#region Species
+#region SPECIES
 @api_view(['GET'])
 def characterSpeciesList(request):
     if request.method == 'GET':
@@ -148,20 +148,20 @@ def characterSpeciesList(request):
 @api_view(['GET', 'POST', 'PUT', 'DELETE'])
 def characterSpecies(request, pk):
     return requestHandler(request, CharacterSpecies, CharacterSpeciesSerializer, pk)
-#endregion Species
+#endregion SPRECIES
 
-#region Species
+#region STATS
 @api_view(['GET'])
 def characterStatsList(request):
     if request.method == 'GET':
-        data = CharacterStats.objects.values("pk", "species_name")
+        data = CharacterStats.objects.values("pk")
         serializer = CharacterStatsSerializer(data, context={'request': request}, many=True)
         return Response(serializer.data)
 
 @api_view(['GET', 'POST', 'PUT', 'DELETE'])
 def characterStats(request, pk):
     return requestHandler(request, CharacterStats, CharacterStatsSerializer, pk)
-#endregion Species
+#endregion STATS
 
 #region WEAPON
 @api_view(['GET', 'POST', 'PUT', 'DELETE'])
@@ -174,7 +174,7 @@ def itemList(request):
         data = Items.objects.values("pk", "item_name")
         serializer = ItemSerializer(data, context={'request': request}, many=True)
         return Response(serializer.data)
-#endregion
+#endregion WEAPON
 
 #region SKILLS
 @api_view(['GET', 'POST', 'PUT', 'DELETE'])
