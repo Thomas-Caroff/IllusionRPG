@@ -204,12 +204,6 @@ class Character(GUIDModel):
     character_species_id = models.ForeignKey(CharacterSpecies, null=True, blank=True, on_delete=models.SET_NULL)
     party_id = models.ForeignKey(Party, null=True, blank=True, on_delete=models.SET_NULL)
 
-    ##Money
-    copper_coins = models.IntegerField(default=0)
-    silver_coins = models.IntegerField(default=0)
-    gold_coins = models.IntegerField(default=0)
-    platinum_coins = models.IntegerField(default=0)
-
     ##Stats
     level = models.IntegerField(default=0)
     character_stats = models.ForeignKey(CharacterStats, null=True, blank=True, on_delete=models.SET_NULL)
@@ -254,17 +248,20 @@ class CharacterItems(GUIDModel):
 
 #region Economy
 class BankAccount(GUIDModel):
-    bank_name = models.CharField(default="", max_length=100)
-    account_name = models.CharField(default="", max_length=100)
+    bank_name = models.CharField(default="Player", max_length=100)
+    account_name = models.CharField(null=True, blank=True, default="", max_length=100)
     owner = models.ManyToManyField(Character)
-    pp = models.IntegerField(null=True, blank=True, default=0)
-    po = models.IntegerField(null=True, blank=True, default=0)
-    pa = models.IntegerField(null=True, blank=True, default=0)
-    pc = models.IntegerField(null=True, blank=True, default=0)
-    pe = models.IntegerField(null=True, blank=True, default=0)
-    item = models.ManyToManyField(Items)
+    
+    ##Money
+    copper_coins = models.IntegerField(null=True, blank=True, default=0)
+    silver_coins = models.IntegerField(null=True, blank=True, default=0)
+    gold_coins = models.IntegerField(null=True, blank=True, default=0)
+    platinum_coins = models.IntegerField(null=True, blank=True, default=0)
+    electrum_coins = models.IntegerField(null=True, blank=True, default=0)
+
+    item = models.ManyToManyField(Items, blank=True)
 
     def __str__(self) -> str:
-        bank_suffix = "[" + self.bank_name + "]" if self.bank_name else ""
+        bank_suffix = " [" + self.bank_name + "]" if self.bank_name else ""
         return (self.account_name + bank_suffix)
 #endregion

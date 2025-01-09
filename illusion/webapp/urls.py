@@ -34,4 +34,6 @@ urlpatterns = [
     re_path(r"^characterweapon/([a-z0-9]*)$", views.characterWeapon),
     re_path(r"^characterarmor/$", views.characterArmorList),
     re_path(r"^characterarmor/([a-z0-9]*)$", views.characterArmor),
+    re_path(r"^bankaccounts/pk/([a-z0-9]*)$", views.bankAccountList),
+    re_path(r"^bankaccounts/([a-z0-9]*)$", views.bankAccount),
 ]

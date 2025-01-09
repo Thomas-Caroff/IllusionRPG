@@ -1,28 +1,23 @@
 from django.contrib import admin
-from .models import (
-    BaseSystem, User, Campaign, Party, DM,
-    CharacterClass, CharacterSpecies, Aptitude, Spell,
-    Weapon, Armor, Items, Character, Skill, SkillSet,
-    CharacterWeapon, CharacterArmor, CharacterItems, CharacterStats
-)
+from . import models as m
 
-
-admin.site.register(BaseSystem)
-admin.site.register(User)
-admin.site.register(Campaign)
-admin.site.register(Party)
-admin.site.register(DM)
-admin.site.register(CharacterClass)
-admin.site.register(CharacterSpecies)
-admin.site.register(CharacterStats)
-admin.site.register(Aptitude)
-admin.site.register(Spell)
-admin.site.register(Weapon)
-admin.site.register(Armor)
-admin.site.register(Items)
-admin.site.register(Character)
-admin.site.register(Skill)
-admin.site.register(SkillSet)
-admin.site.register(CharacterWeapon)
-admin.site.register(CharacterArmor)
-admin.site.register(CharacterItems)
+admin.site.register(m.BaseSystem)
+admin.site.register(m.User)
+admin.site.register(m.Campaign)
+admin.site.register(m.Party)
+admin.site.register(m.DM)
+admin.site.register(m.CharacterClass)
+admin.site.register(m.CharacterSpecies)
+admin.site.register(m.CharacterStats)
+admin.site.register(m.Aptitude)
+admin.site.register(m.Spell)
+admin.site.register(m.Weapon)
+admin.site.register(m.Armor)
+admin.site.register(m.Items)
+admin.site.register(m.Character)
+admin.site.register(m.Skill)
+admin.site.register(m.SkillSet)
+admin.site.register(m.CharacterWeapon)
+admin.site.register(m.CharacterArmor)
+admin.site.register(m.CharacterItems)
+admin.site.register(m.BankAccount)

@@ -280,7 +280,26 @@ def characterArmorList(request):
 
 #endregion CHARACTER
 
+#region BANK ACCOUNT
+@api_view(['GET', 'POST', 'PUT', 'DELETE'])
+def bankAccount(request, pk):
+    return requestHandler(request, BankAccount, BankAccountSerializer, pk)
 
+@api_view(['GET'])
+def bankAccountList(request, character_pk):
+    if request.method == 'GET':
+        try:
+            character = Character.objects.get(pk=character_pk)
+        except Character.DoesNotExist:
+            return Response(
+                {"error": "Character not found"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        data = BankAccount.objects.filter(owner=character)
+        serializer = BankAccountSerializer(data, many=True, context={'request': request})
+        return Response(serializer.data)
+#endregion
 
 ########################################################################################
 

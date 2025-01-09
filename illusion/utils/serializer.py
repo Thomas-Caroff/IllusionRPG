@@ -133,3 +133,11 @@ class SkillSetSerializer(serializers.ModelSerializer):
     class Meta:
         model = SkillSet
         fields = ('pk', 'base_system_id', 'skill_list')
+
+class BankAccountSerializer(serializers.ModelSerializer):
+    owner = serializers.PrimaryKeyRelatedField(queryset=Character.objects.all(), many=True)
+    item = serializers.PrimaryKeyRelatedField(queryset=Items.objects.all(), many=True)
+
+    class Meta:
+        model = BankAccount
+        fields = '__all__'
