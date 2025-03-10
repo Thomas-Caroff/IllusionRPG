@@ -177,12 +177,12 @@ def characterHealthList(request):
 #region ITEM
 @api_view(['GET', 'POST', 'PUT', 'DELETE'])
 def item(request, pk):
-    return requestHandler(request, Items, ItemSerializer, pk)
+    return requestHandler(request, Item, ItemSerializer, pk)
 
 @api_view(['GET'])
 def itemList(request):
     if request.method == 'GET':
-        data = Items.objects.values("pk", "item_name")
+        data = Item.objects.values("pk", "item_name")
         serializer = ItemSerializer(data, context={'request': request}, many=True)
         return Response(serializer.data)
 #endregion ITEM
@@ -260,32 +260,6 @@ def armorList(request):
     if request.method == 'GET':
         data = Armor.objects.values("pk", "armor_name")
         serializer = ArmorSerializer(data, context={'request': request}, many=True)
-        return Response(serializer.data)
-#endregion
-
-#region CHARACTERWEAPON
-@api_view(['GET', 'POST', 'PUT', 'DELETE'])
-def characterWeapon(request, pk):
-    return requestHandler(request, CharacterWeapon, CharacterWeaponSerializer, pk)
-
-@api_view(['GET'])
-def characterWeaponList(request):
-    if request.method == 'GET':
-        data = CharacterWeapon.objects.all()
-        serializer = CharacterWeaponSerializer(data, context={'request': request}, many=True)
-        return Response(serializer.data)
-#endregion
-
-#region CHARACTERARMOR
-@api_view(['GET', 'POST', 'PUT', 'DELETE'])
-def characterArmor(request, pk):
-    return requestHandler(request, CharacterArmor, CharacterArmorSerializer, pk)
-
-@api_view(['GET'])
-def characterArmorList(request):
-    if request.method == 'GET':
-        data = CharacterArmor.objects.all()
-        serializer = CharacterArmorSerializer(data, context={'request': request}, many=True)
         return Response(serializer.data)
 #endregion
 

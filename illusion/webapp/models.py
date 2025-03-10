@@ -140,71 +140,6 @@ class SkillSet(GUIDModel):
         return f"{self.skill_set_name} ({self.base_system_id})"
 #endregion
 
-#region Aptitude
-class Aptitude(GUIDModel):
-    is_from_class = models.BooleanField(default=False)
-    is_from_species = models.BooleanField(default=True)
-    is_homebrew = models.BooleanField(default=False)
-    aptitude_name = models.CharField(default="", max_length=200)
-    description = models.TextField(blank=True, default="", max_length=5000)
-
-    def __str__(self) -> str:
-        return self.aptitude_name
-#endregion
-
-#region Spell
-class Spell(GUIDModel):
-    spell_name = models.CharField(default="", max_length=200)
-    damages = models.IntegerField(null=True, default=0)
-    level = models.IntegerField(blank=True, default=0)
-    property = models.CharField(blank=True, default="", max_length=500)
-    is_bonus_action = models.BooleanField(default=False)
-    is_homebrew = models.BooleanField(default=False)
-    class_limit = models.CharField(default="", null=True, blank=True, max_length=320)
-
-    def __str__(self) -> str:
-        return self.spell_name
-#endregion
-
-#region Weapon
-class Weapon(GUIDModel):
-    weapon_name = models.CharField(default="", max_length=200)
-    damages = models.IntegerField(default=4)
-    is_damaged = models.BooleanField(default=False)
-    price = models.IntegerField(default=0) #price in copper coins
-    damage_type = models.CharField(blank=True, default="", max_length=100)
-    properties = models.CharField(blank=True, default="", max_length=500)
-    ammo = models.IntegerField(blank = True, default=0)
-
-    def __str__(self) -> str:
-        return self.weapon_name
-#endregion
-
-#region Armor
-class Armor(GUIDModel):
-    armor_name = models.CharField(default="", max_length=200)
-    ca = models.IntegerField(default=11)
-    is_damaged = models.BooleanField(default=False)
-    price = models.IntegerField(default=0) #price in copper coins
-    max_dex_modifier = models.IntegerField(default=2)
-    required_force = models.IntegerField(default=0)
-    disadvantage_stealth = models.BooleanField(default=False)
-    disadvantage_athletism = models.BooleanField(default=False)
-
-    def __str__(self) -> str:
-        return self.armor_name
-#endregion
-
-#region Items
-class Items(GUIDModel):
-    item_name = models.CharField(default="", max_length=200)
-    price = models.IntegerField(default=0) #price in copper coins
-    is_homebrew = models.BooleanField(default=False)
-
-    def __str__(self) -> str:
-        return self.item_name
-#endregion
-
 #region Character
 class Character(GUIDModel):
     ##Global
@@ -224,38 +159,74 @@ class Character(GUIDModel):
         return self.character_name
 #endregion
 
-#region Character Weapon
-class CharacterWeapon(GUIDModel):
-    character_id = models.ForeignKey(Character, on_delete=models.CASCADE)
-    weapon_type = models.ForeignKey(Weapon, on_delete=models.CASCADE)
-    nickname = models.CharField(blank=True, default="", max_length=100)
-    is_equipped = models.BooleanField(default=False)
-    ammo_count = models.IntegerField(blank = True, default=0)
+#region Aptitude
+class Aptitude(GUIDModel):
+    character_id = models.ForeignKey(Character, on_delete=models.CASCADE, null=True)
+    is_from_class = models.BooleanField(default=False)
+    is_from_species = models.BooleanField(default=True)
+    is_homebrew = models.BooleanField(default=False)
+    aptitude_name = models.CharField(default="", max_length=200)
+    description = models.TextField(blank=True, default="", max_length=5000)
 
     def __str__(self) -> str:
-        return self.nickname if self.nickname else self.weapon_type.weapon_name
+        return self.aptitude_name
 #endregion
 
-#region Character Armor
-class CharacterArmor(GUIDModel):
-    character_id = models.ForeignKey(Character, on_delete=models.CASCADE)
-    weapon_type = models.ForeignKey(Armor, on_delete=models.CASCADE)
-    nickname = models.CharField(blank=True, default="", max_length=100)
-    is_equipped = models.BooleanField(default=False)
+#region Spell
+class Spell(GUIDModel):
+    character_id = models.ForeignKey(Character, on_delete=models.CASCADE, null=True)
+    spell_name = models.CharField(default="", max_length=200)
+    damages = models.IntegerField(null=True, default=0)
+    level = models.IntegerField(blank=True, default=0)
+    property = models.CharField(blank=True, default="", max_length=500)
+    is_bonus_action = models.BooleanField(default=False)
+    is_homebrew = models.BooleanField(default=False)
+    class_limit = models.CharField(default="", null=True, blank=True, max_length=320)
 
     def __str__(self) -> str:
-        return self.nickname if self.nickname else self.weapon_type.armor_name
+        return self.spell_name
 #endregion
 
-#region Character Items
-class CharacterItems(GUIDModel):
-    character_id = models.ForeignKey(Character, null=True, blank=True, on_delete=models.SET_NULL)
-    item_id = models.ForeignKey(Items, null=True, blank=True, on_delete=models.SET_NULL)
-    nickname = models.CharField(blank=True, default="", max_length=100)
-    is_item_hidden = models.BooleanField(default=False)
+#region Weapon
+class Weapon(GUIDModel):
+    character_id = models.ForeignKey(Character, on_delete=models.CASCADE, null=True)
+    weapon_name = models.CharField(default="", max_length=200)
+    damages = models.IntegerField(default=4)
+    is_damaged = models.BooleanField(default=False)
+    price = models.IntegerField(default=0) #price in copper coins
+    damage_type = models.CharField(blank=True, default="", max_length=100)
+    properties = models.CharField(blank=True, default="", max_length=500)
+    ammo = models.IntegerField(blank = True, default=0)
 
     def __str__(self) -> str:
-        return self.nickname if self.nickname else self.item_id.item_name
+        return self.weapon_name
+#endregion
+
+#region Armor
+class Armor(GUIDModel):
+    character_id = models.ForeignKey(Character, on_delete=models.CASCADE, null=True)
+    armor_name = models.CharField(default="", max_length=200)
+    ca = models.IntegerField(default=11)
+    is_damaged = models.BooleanField(default=False)
+    price = models.IntegerField(default=0) #price in copper coins
+    max_dex_modifier = models.IntegerField(default=2)
+    required_force = models.IntegerField(default=0)
+    disadvantage_stealth = models.BooleanField(default=False)
+    disadvantage_athletism = models.BooleanField(default=False)
+
+    def __str__(self) -> str:
+        return self.armor_name
+#endregion
+
+#region Item
+class Item(GUIDModel):
+    character_id = models.ForeignKey(Character, on_delete=models.CASCADE, null=True)
+    item_name = models.CharField(default="", max_length=200)
+    price = models.IntegerField(default=0) #price in copper coins
+    is_homebrew = models.BooleanField(default=False)
+
+    def __str__(self) -> str:
+        return self.item_name
 #endregion
 
 #region Economy
@@ -271,7 +242,7 @@ class BankAccount(GUIDModel):
     platinum_coins = models.IntegerField(null=True, blank=True, default=0)
     electrum_coins = models.IntegerField(null=True, blank=True, default=0)
 
-    item = models.ManyToManyField(Items, blank=True)
+    item = models.ManyToManyField(Item, blank=True)
 
     def __str__(self) -> str:
         bank_suffix = " [" + self.bank_name + "]" if self.bank_name else ""

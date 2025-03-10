@@ -107,22 +107,10 @@ class ArmorSerializer(serializers.ModelSerializer):
         model = Armor
         fields = ('pk', 'armor_name', 'ca', 'max_dex_modifier', 'is_damaged', 'price', 'required_force', 'disadvantage_stealth', 'disadvantage_athletism')
 
-class CharacterWeaponSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = CharacterWeapon
-        fields = ('pk', 'character_id', 'weapon_type', 'nickname', 'is_equipped', 'ammo_count')
-
-class CharacterArmorSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = CharacterArmor
-        fields = ('pk', 'character_id', 'weapon_type', 'nickname', 'is_equipped')
-
 class ItemSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = Items
+        model = Item
         fields = ('pk', 'item_name', 'price', 'is_homebrew')
 
 class SkillSerializer(serializers.ModelSerializer):
@@ -139,7 +127,7 @@ class SkillSetSerializer(serializers.ModelSerializer):
 
 class BankAccountSerializer(serializers.ModelSerializer):
     owner = serializers.PrimaryKeyRelatedField(queryset=Character.objects.all(), many=True)
-    item = serializers.PrimaryKeyRelatedField(queryset=Items.objects.all(), many=True)
+    item = serializers.PrimaryKeyRelatedField(queryset=Item.objects.all(), many=True)
 
     class Meta:
         model = BankAccount
