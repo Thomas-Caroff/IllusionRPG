@@ -35,10 +35,7 @@ class CharacterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Character
-        fields = ('pk', 'user_id', 'character_name', 'description',
-                'character_class_id', 'character_species_id', 'party_id', 
-                'copper_coins', 'silver_coins', 'gold_coins', 'platinum_coins',
-                'level', 'character_stats')
+        fields = ('__all__')
 
 class CharacterClassSerializer(serializers.ModelSerializer):
 
@@ -79,6 +76,12 @@ class CharacterStatsSerializer(serializers.ModelSerializer):
             'proficiency_bonus', 
             'skill_proficiency', 
             'skill_expertise')
+
+class CharacterHealthSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = CharacterHealth
+        fields = ("__all__")
 
 class AptitudeSerializer(serializers.ModelSerializer):
 

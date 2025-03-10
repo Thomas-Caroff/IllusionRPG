@@ -18,6 +18,8 @@ urlpatterns = [
     re_path(r"^character/([a-z0-9]*)$", views.character),
     re_path(r"^characterstats/$", views.characterStatsList),
     re_path(r"^characterstats/([a-z0-9]*)$", views.characterStats),
+    re_path(r"^characterhealth/$", views.characterHealthList),
+    re_path(r"^characterhealth/([a-z0-9]*)$", views.characterHealth),
     re_path(r"^aptitude/$", views.aptitudeList),
     re_path(r"^aptitude/([a-z0-9]*)$", views.aptitude),
     re_path(r"^skill/$", views.skillList),

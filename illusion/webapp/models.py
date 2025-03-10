@@ -84,12 +84,23 @@ class CharacterStats(GUIDModel):
     skill_expertise = models.TextField(null=True, blank=True, default="", max_length=640)
 #endregion
 
+#region Character Health
+class CharacterHealth(GUIDModel):
+    max_hp = models.IntegerField(null=True, blank=True, default=0)
+    current_hp = models.IntegerField(null=True, blank=True, default=0)
+    hp_dice = models.CharField(null=True, blank=True, default="1d8", max_length=6)
+    temporary_hp = models.IntegerField(null=True, blank=True, default=0)
+    injury_threshold = models.IntegerField(null=True, blank=True, default=0)
+    temporary_corruption = models.IntegerField(null=True, blank=True, default=0)
+    permanent_corruption = models.IntegerField(null=True, blank=True, default=0)
+#endregion
+
 #region Character Class
 class CharacterClass(GUIDModel):
     class_name = models.CharField(default="Commoner", max_length=200)
     base_system = models.ForeignKey(BaseSystem, null=True, blank=True, on_delete=models.SET_NULL)
     is_homebrew = models.BooleanField(default=False)
-    hp_dice = models.IntegerField(null=True, default=6)
+    class_level = models.IntegerField(blank = True, null = True, default=1)
     
     bonus_stats = models.ForeignKey(CharacterStats, null=True, blank=True, on_delete=models.SET_NULL)
 
@@ -207,6 +218,7 @@ class Character(GUIDModel):
     ##Stats
     level = models.IntegerField(default=0)
     character_stats = models.ForeignKey(CharacterStats, null=True, blank=True, on_delete=models.SET_NULL)
+    character_health = models.ForeignKey(CharacterHealth, null=True, blank=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return self.character_name

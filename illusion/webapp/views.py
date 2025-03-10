@@ -163,7 +163,18 @@ def characterStats(request, pk):
     return requestHandler(request, CharacterStats, CharacterStatsSerializer, pk)
 #endregion STATS
 
-#region WEAPON
+@api_view(['GET', 'POST', 'PUT', 'DELETE'])
+def characterHealth(request, pk):
+    return requestHandler(request, CharacterHealth, CharacterHealthSerializer, pk)
+
+@api_view(['GET'])
+def characterHealthList(request):
+    if request.method == 'GET':
+        data = CharacterHealth.objects.values("pk")
+        serializer = CharacterHealthSerializer(data, context={'request': request}, many=True)
+        return Response(serializer.data)
+
+#region ITEM
 @api_view(['GET', 'POST', 'PUT', 'DELETE'])
 def item(request, pk):
     return requestHandler(request, Items, ItemSerializer, pk)
@@ -174,7 +185,7 @@ def itemList(request):
         data = Items.objects.values("pk", "item_name")
         serializer = ItemSerializer(data, context={'request': request}, many=True)
         return Response(serializer.data)
-#endregion WEAPON
+#endregion ITEM
 
 #region SKILLS
 @api_view(['GET', 'POST', 'PUT', 'DELETE'])
@@ -300,6 +311,8 @@ def bankAccountList(request, character_pk):
         serializer = BankAccountSerializer(data, many=True, context={'request': request})
         return Response(serializer.data)
 #endregion
+
+
 
 ########################################################################################
 
